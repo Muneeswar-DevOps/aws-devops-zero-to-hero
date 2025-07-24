@@ -10,10 +10,12 @@ phases:
   install:
     runtime-versions:
       python: 3.11
+
   pre_build:
     commands:
       - echo "Installing dependencies..."
       - pip install -r day-14/simple-python-app/requirements.txt
+
   build:
     commands:
       - echo "Running tests..."
@@ -22,6 +24,7 @@ phases:
       - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
       - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:latest" .
       - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:latest"
+
   post_build:
     commands:
       - echo "Build completed successfully!"
@@ -29,10 +32,7 @@ phases:
 artifacts:
   files:
     - appspec.yml
-    - scripts/*
-    - Dockerfile
-    - app.py
-    - requirements.txt
-  base-directory: day-14/simple-python-app
-
-
+    - scripts/**/*
+    - day-14/simple-python-app/Dockerfile
+    - day-14/simple-python-app/app.py
+    - day-14/simple-python-app/requirements.txt
